@@ -13,7 +13,7 @@ global class GetPropertyListing {
         subjectProperty = propertyList[0]; 
       
         //update url 
-        String apiKey = '0ce8a0f686mshe96e68bade03161p19224cjsnba5566686949'; 
+//         String apiKey = ''; 
         String propertyAddressToUpdate = subjectProperty.Full_Address__c; 
         String paddedPropertyAddress = '/search?location='+propertyAddressToUpdate.replace(' ','%20').replace(',',''); 
     
