@@ -3,18 +3,22 @@ import getPropertyListingData from '@salesforce/apex/GetPropertyListing.getPrope
 
 export default class GetProperty extends LightningElement {
     @api recordId; 
-    handle_Id(event) {
-        this.recordId = event.detail.value;
-    }
+    @track data;
+    @track isShowModal = false;
+
+
+    // handle_Id(event) {
+    //     this.recordId = event.detail.value;
+    // }
+
     handleClick(){
-            this.loadingSpinner = true;
-            getPropertyListingData({recordId}).then(resp => {
-            console.log('recordId: '+recordId); 
-            this.data = JSON.parse(resp);
-            console.log(this.data); 
-            this.loadingSpinner = false;
+            // this.loadingSpinner = true;
+            getPropertyListingData({subjectPropertyId: this.recordId}).then(resp => {
+            // console.log('recordId: '+recordId); 
+            this.data = JSON.parse(resp).message;
+            console.log(this.data[0]); 
+            // this.loadingSpinner = false;
         })
     }
 }
 
-//c/getPropertytesting
