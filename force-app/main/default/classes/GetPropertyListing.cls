@@ -73,7 +73,7 @@ global class GetPropertyListing {
           updateMap.put('latitude',latitude);
           String longitude = PropertyUpdateFromZillow.parseStringAfter(('longitude: '+m.get('longitude'))); 
           updateMap.put('longitude',longitude);
-          String valueEstimate = PropertyUpdateFromZillow.parseStringAfter(('valueEstimate: '+m.get('valueEstimate'))); 
+          String valueEstimate = PropertyUpdateFromZillow.parseStringAfter(('zestimate: '+m.get('zestimate'))); 
           updateMap.put('valueEstimate',valueEstimate);
 
           List<Property__c> updateProperty = new List<Property__c>(); 
