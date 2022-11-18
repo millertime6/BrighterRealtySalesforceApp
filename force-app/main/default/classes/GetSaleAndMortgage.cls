@@ -36,9 +36,11 @@ global with sharing class GetSaleAndMortgage {
         if(res.getStatusCode() == 200) {
 
           Map<String, Object> m = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
+          system.debug('full response: '+m); 
+          
           //create separate class to hold mapped values 
-          //create instance of the class here 
           //update instance values with mapped results from callout response 
+          //make map of the highest level items and query within them with get methods 
           Map<String,Object> rMap = new Map<String,Object>();
           Map<String,Object> area = new Map<String,Object>(); 
           Map<String,Object> address = new Map<String,Object>(); 
@@ -65,37 +67,11 @@ global with sharing class GetSaleAndMortgage {
                 system.debug('null.. : ' + property);
             }
 
-          //2nd level of nesting for lot
-          Map<String,Object> lMap = new Map<String,Object>();
-          Map<String,Object> lotNum = new Map<String,Object>(); 
-          Map<String,Object> lotSize1 = new Map<String,Object>(); 
-          Map<String,Object> lotSize2 = new Map<String,Object>(); 
-          Map<String,Object> zoningType = new Map<String,Object>(); 
-          Map<String,Object> siteZoningIdent = new Map<String,Object>(); 
-          List<Object> subLot = (List<Object>) rMap.get('lot'); //get the records
-            if (subLot != null) {
-                for (Object l : subLot) {
-                    lMap = (Map<String,Object>)l;
-                    lotNum = (Map<String,Object>)lMap.get('lotNum');
-                    lotSize1 = (Map<String,Object>)lMap.get('lotSize1');
-                    lotSize2 = (Map<String,Object>)lMap.get('lotSize2');
-                    zoningType = (Map<String,Object>)lMap.get('zoningType');
-                    siteZoningIdent = (Map<String,Object>)lMap.get('siteZoningIdent');
-
-                    System.debug('lot: '+subLot);
-                    System.debug('lotNum: '+subLot[0]); 
-                }
-            } else {
-                system.debug('null.. : ' + subLot);
-            }
-
-          //3rd level of nesting 
+            system.debug('lot: '+lot); 
+            Integer lotNumber = Integer.valueOf(lot.get('lotNum')); 
+            system.debug('lotNum: '+lotNumber); 
 
 
-          //4th level of nesting
-
-          
-          
           //final updates
           List<Sale_Mortgage__c> updateSaleMortgage = new List<Sale_Mortgage__c>(); 
           updateSaleMortgage.add(subjectSaleMortgage); 
