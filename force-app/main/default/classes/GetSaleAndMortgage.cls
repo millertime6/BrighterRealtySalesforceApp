@@ -12,7 +12,7 @@ global with sharing class GetSaleAndMortgage {
         subjectSaleMortgage = saleMortgageList[0]; 
       
         //update url 
-        String apiKey = '2b1e86b638620bf2404521e6e9e1b19e'; 
+        String apiKey = '0ab956c73fcb4ffb82021c067bbafc8a'; 
         String propertyAddressToUpdate = subjectSaleMortgage.Full_Property_Address__c; 
         String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
         //https://api.gateway.attomdata.com/propertyapi/v1.0.0/property/expandedprofile?address1=4756%20Witchhazel%20Way&address2=Aberdeen%2C%20MD
@@ -40,10 +40,15 @@ global with sharing class GetSaleAndMortgage {
           //create instance of the class here 
           //update instance values with mapped results from callout response 
           Map<String,Object> rMap = new Map<String,Object>();
-          Map<String,Object> lot = new Map<String,Object>();
           Map<String,Object> area = new Map<String,Object>(); 
           Map<String,Object> address = new Map<String,Object>(); 
+          Map<String,Object> assessment = new Map<String,Object>(); 
+          Map<String,Object> mortgage = new Map<String,Object>(); 
+          Map<String,Object> sale = new Map<String,Object>(); 
+          Map<String,Object> building = new Map<String,Object>(); 
+          Map<String,Object> lot = new Map<String,Object>(); 
 
+            //1st level of nesting
             List<Object> property = (List<Object>) m.get('property'); //get the records
             if (property != null) {
                 for (Object r : property) {
@@ -51,25 +56,49 @@ global with sharing class GetSaleAndMortgage {
                     lot = (Map<String,Object>)rMap.get('lot');
                     area = (Map<String,Object>)rMap.get('area');
                     address = (Map<String,Object>)rMap.get('address');
+                    assessment = (Map<String,Object>)rMap.get('assessment');
+                    building = (Map<String,Object>)rMap.get('building');
+
                     System.debug(property);
                 }
             } else {
                 system.debug('null.. : ' + property);
             }
-          System.debug('full response map: '+m); 
-       
-          //populating the results 
-          Map<String,String> updateMap = new Map<String, String>(); 
-          
-          //printing the successul object and getting a value from it
-          system.debug(address); 
-          system.debug(address.get('line1')); 
+
+          //2nd level of nesting for lot
+          Map<String,Object> lMap = new Map<String,Object>();
+          Map<String,Object> lotNum = new Map<String,Object>(); 
+          Map<String,Object> lotSize1 = new Map<String,Object>(); 
+          Map<String,Object> lotSize2 = new Map<String,Object>(); 
+          Map<String,Object> zoningType = new Map<String,Object>(); 
+          Map<String,Object> siteZoningIdent = new Map<String,Object>(); 
+          List<Object> subLot = (List<Object>) rMap.get('lot'); //get the records
+            if (subLot != null) {
+                for (Object l : subLot) {
+                    lMap = (Map<String,Object>)l;
+                    lotNum = (Map<String,Object>)lMap.get('lotNum');
+                    lotSize1 = (Map<String,Object>)lMap.get('lotSize1');
+                    lotSize2 = (Map<String,Object>)lMap.get('lotSize2');
+                    zoningType = (Map<String,Object>)lMap.get('zoningType');
+                    siteZoningIdent = (Map<String,Object>)lMap.get('siteZoningIdent');
+
+                    System.debug('lot: '+subLot);
+                    System.debug('lotNum: '+subLot[0]); 
+                }
+            } else {
+                system.debug('null.. : ' + subLot);
+            }
+
+          //3rd level of nesting 
+
+
+          //4th level of nesting
 
           
+          
+          //final updates
           List<Sale_Mortgage__c> updateSaleMortgage = new List<Sale_Mortgage__c>(); 
-        //   subjectSaleMortgage.First_Lender_Name__c = firstLenderName; 
           updateSaleMortgage.add(subjectSaleMortgage); 
-          system.debug('subject sale mortgage: '+subjectSaleMortgage); 
           update updateSaleMortgage; 
 
       }else{

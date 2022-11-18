@@ -5,6 +5,17 @@ global with sharing class PropertyUpdateFromZillow {
         }
 
         //parse string value method 
+        public static String stringOnlyNullCheck(String str){
+            if(String.isBlank(str)) {
+                return null; 
+            }
+            if(str == 'null'){
+                return null; 
+            }else{
+                return String.valueOf(str); 
+            }
+        }
+
 
         //decimal null check 
         public static Decimal decimalNullCheck(String dec){
