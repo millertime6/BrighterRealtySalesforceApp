@@ -1,0 +1,21 @@
+<template>
+    <lightning-card title="Mortgage API - Refresh Mortgage Data">
+        <lightning-layout>
+            <div class="slds-p-around_small">
+                <lightning-record-view-form record-id={recordId} object-api-name="Sale_Mortgage__c">
+                <lightning-button variant="success" 
+                    label="Refresh Sale Mortgage Data"
+                    onclick={handleClick}>
+                </lightning-button>
+                <br>
+                <template if:true={loadingSpinner}>
+                    <lightning-spinner alternative-text="Loading" variant="inverse" size="medium"></lightning-spinner>
+                </template>
+                </lightning-record-view-form>
+                <template if:true={loadingSpinner}>
+                    <lightning-spinner alternative-text="Loading" variant="inverse" size="medium"></lightning-spinner>
+                </template>
+            </div>
+        </lightning-layout>
+    </lightning-card>
+</template>

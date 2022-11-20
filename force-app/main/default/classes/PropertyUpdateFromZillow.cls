@@ -29,6 +29,15 @@ global with sharing class PropertyUpdateFromZillow {
             }
         }
 
+        //integer null check 
+        public static Integer integerNullCheck(Integer dec){
+            if(dec==null) {
+                return 0; 
+            }else{
+                return Integer.valueOf(dec); 
+            }
+        }
+
         //string  null check 
         public static Date stringNullCheck(String str){
             if(String.isBlank(str)) {
@@ -52,4 +61,14 @@ global with sharing class PropertyUpdateFromZillow {
                 return Date.valueOf(dateString); 
             }
         }
+
+        //date ONLY null check 
+        public static Date dateStrictNullCheck(Date dateString){
+            if(dateString == null) {
+                return null; 
+            }else{
+                return dateString; 
+            }
+        }
+
     }
