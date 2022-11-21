@@ -1,6 +1,7 @@
 global class GetPropertyListing {
 
     // Pass in the endpoint to be used using the string url
+    @future (callout=true)
     @auraEnabled
      Webservice static void getPropertyListingData(String subjectPropertyId) {
       

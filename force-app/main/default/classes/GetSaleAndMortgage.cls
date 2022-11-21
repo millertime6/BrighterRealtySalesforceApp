@@ -5,7 +5,7 @@ global with sharing class GetSaleAndMortgage {
       
       List<Sale_Mortgage__c> saleMortgageList = [SELECT Name, Id, First_Lender_Name__c, First_Mortgage_Balance__c,Second_Mortgage_Balance__c,Loan_Type__c, Mortgage_Recording_Date__c, 
                                         Owner_One_First_Name__c, Owner_One_Last_Name__c, Full_Property_Address__c, Owner_Two_First_Name__c, Owner_Two_Last_Name__c, Property__c, Recording_Date__c, Settle_Date__c, 
-                                        Street_Address__c, City_and_State__c FROM Sale_Mortgage__c 
+                                        Street_Address__c, City_and_State__c, City__c FROM Sale_Mortgage__c 
                                         WHERE Id =: subjectPropertyId]; 
         system.debug('the property list is: '+saleMortgageList); 
 
@@ -15,8 +15,9 @@ global with sharing class GetSaleAndMortgage {
         //update url 
         String apiKey = '0ab956c73fcb4ffb82021c067bbafc8a'; 
         String propertyAddressToUpdate = subjectSaleMortgage.Full_Property_Address__c; 
-        String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
-    
+        String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','').replace('Apt','')+'%2C%20'+subjectSaleMortgage.City__c.replace(' ','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
+        // String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
+
         // Instantiate a new Http object
         Http h = new Http();
     
@@ -28,6 +29,8 @@ global with sharing class GetSaleAndMortgage {
 
         // req.setHeader('X-RapidAPI-Host','https://api.gateway.attomdata.com'); 
         req.setEndpoint('callout:AttomApi'+paddedPropertyAddress);
+        system.debug(paddedPropertyAddress);
+
     
         // Send the request, and return a response
         HttpResponse res = h.send(req);
