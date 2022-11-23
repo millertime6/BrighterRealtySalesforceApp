@@ -1,17 +1,17 @@
 import { LightningElement, wire } from 'lwc';
-// import getContactList from '@salesforce/apex/ContactController.getContactList';
+import getWorkOrders from '@salesforce/apex/GetWorkOrders.getWorkOrders';
 
 const columns = [
-    { label: 'First Name', fieldName: 'FirstName' },
-    { label: 'Last Name', fieldName: 'LastName' },
-    { label: 'Title', fieldName: 'Title' },
-    { label: 'Phone', fieldName: 'Phone', type: 'phone' },
-    { label: 'Email', fieldName: 'Email', type: 'email' },
+    { label: 'Due Date', fieldName: 'Due_Date__c' },
+    { label: 'Project', fieldName: 'Project__c' },
+    { label: 'Status', fieldName: 'Status__c' },
+    { label: 'Vendor', fieldName: 'Vendor__c' },
+    { label: 'Work Order Name', fieldName: 'Name' },
 ];
-export default class ApexDatatableExample extends LightningElement {
+export default class WorkOrderDataTable extends LightningElement {
     error;
     columns = columns;
 
-    // @wire(getContactList)
-    contacts;
+    @wire(getWorkOrders)
+    Work_Order__c;
 }
