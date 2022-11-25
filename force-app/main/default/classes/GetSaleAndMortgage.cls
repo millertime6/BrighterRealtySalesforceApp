@@ -5,7 +5,7 @@ global with sharing class GetSaleAndMortgage {
       
       List<Sale_Mortgage__c> saleMortgageList = [SELECT Name, Id, First_Lender_Name__c, First_Mortgage_Balance__c,Second_Mortgage_Balance__c,Loan_Type__c, Mortgage_Recording_Date__c, 
                                         Owner_One_First_Name__c, Owner_One_Last_Name__c, Full_Property_Address__c, Owner_Two_First_Name__c, Owner_Two_Last_Name__c, Property__c, Recording_Date__c, Settle_Date__c, 
-                                        Street_Address__c, City_and_State__c, City__c FROM Sale_Mortgage__c 
+                                        Street_Address__c, City_and_State__c, City__c, Monthly_Taxes__c FROM Sale_Mortgage__c 
                                         WHERE Id =: subjectPropertyId]; 
         system.debug('the property list is: '+saleMortgageList); 
 
@@ -73,6 +73,7 @@ global with sharing class GetSaleAndMortgage {
             //need to extract mortgage and owner from assessment
             Map<String,Object> mortgageMap = (Map<String, Object>) assessment.get('mortgage'); 
             Map<String,Object> ownerMap = (Map<String, Object>) assessment.get('owner'); 
+            Map<String,Object> taxMap = (Map<String, Object>) assessment.get('tax'); 
 
 
             //3rd level 
@@ -84,6 +85,7 @@ global with sharing class GetSaleAndMortgage {
             //4th level for owner names 
             Map<String, Object> owner1NameMap = (Map<String, Object>)ownerMap.get('owner1'); 
             Map<String, Object> owner2NameMap = (Map<String, Object>)ownerMap.get('owner2'); 
+            Map<String, Object> taxMapValue = (Map<String, Object>)taxMap.get('taxAmt'); 
 
             //value assignments 
             subjectSaleMortgage.First_Mortgage_Balance__c = PropertyUpdateFromZillow.integerNullCheck(Integer.valueOf(firstConcurrent.get('amount'))); 
@@ -94,6 +96,7 @@ global with sharing class GetSaleAndMortgage {
             subjectSaleMortgage.Owner_One_Last_Name__c = String.valueOf(owner1NameMap.get('lastName')); 
             subjectSaleMortgage.Owner_Two_First_Name__c = String.valueOf(owner2NameMap.get('firstNameAndMi')); 
             subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
+            subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMapValue.get('taxAmt')); 
 
           //final updates
           List<Sale_Mortgage__c> updateSaleMortgage = new List<Sale_Mortgage__c>(); 

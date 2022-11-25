@@ -6,7 +6,7 @@ global class GetPropertyListing {
      Webservice static void getPropertyListingData(String subjectPropertyId) {
       
       System.debug('Subject Property Id from LWC ' +subjectPropertyId); 
-      List<Property__c> propertyList = [SELECT Name, Id, Value_Estimate__c, Full_Address__c,Latitude__c, Longitude__c, Property_Picture_Link__c, Property_Type__c, Non_Owner_Occupied__c, Last_Sale_Date__c, Status__c, Listing_Status__c, Baths__c, Beds__c, County__c 
+      List<Property__c> propertyList = [SELECT Name, Id, Value_Estimate__c, Full_Address__c,Latitude__c, Longitude__c, Property_Picture_Link__c, Property_Type__c, Non_Owner_Occupied__c, Last_Sale_Date__c, Status__c, Listing_Status__c, Baths__c, Beds__c, County__c, Rent_Estimate__c 
                                         FROM Property__c WHERE Id =: subjectPropertyId]; 
       system.debug('the property list is: '+propertyList); 
 
@@ -76,6 +76,8 @@ global class GetPropertyListing {
           updateMap.put('longitude',longitude);
           String valueEstimate = PropertyUpdateFromZillow.parseStringAfter(('zestimate: '+m.get('zestimate'))); 
           updateMap.put('valueEstimate',valueEstimate);
+          String rentEstimate = PropertyUpdateFromZillow.parseStringAfter(('rentZestimate: '+m.get('rentZestimate'))); 
+          updateMap.put('rentEstimate',rentEstimate);
 
           List<Property__c> updateProperty = new List<Property__c>(); 
 
@@ -87,6 +89,7 @@ global class GetPropertyListing {
           subjectProperty.Non_Owner_Occupied__c = nonOwnerOccupied; 
           subjectProperty.Description__c = description; 
           subjectProperty.Property_Type__c = propertyType;
+          subjectProperty.Rent_Estimate__c = PropertyUpdateFromZillow.decimalNullCheck(rentEstimate); 
           if(taxId != null && taxId != 'null') {
             subjectProperty.Tax_ID__c = taxId; 
           }
