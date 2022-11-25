@@ -81,11 +81,11 @@ global with sharing class GetSaleAndMortgage {
             //adding FirstConcurrent and SecondConcurrent to maps for content retrieval 
             Map<String, Object> firstConcurrent = (Map<String, Object>)mortgageMap.get('FirstConcurrent'); 
             Map<String, Object> secondConcurrent = (Map<String, Object>)mortgageMap.get('SecondConcurrent'); 
+            // Map<String, Object> taxMapValue = (Map<String, Object>)taxMap.get('taxAmt'); 
 
             //4th level for owner names 
             Map<String, Object> owner1NameMap = (Map<String, Object>)ownerMap.get('owner1'); 
             Map<String, Object> owner2NameMap = (Map<String, Object>)ownerMap.get('owner2'); 
-            Map<String, Object> taxMapValue = (Map<String, Object>)taxMap.get('taxAmt'); 
 
             //value assignments 
             subjectSaleMortgage.First_Mortgage_Balance__c = PropertyUpdateFromZillow.integerNullCheck(Integer.valueOf(firstConcurrent.get('amount'))); 
@@ -96,7 +96,7 @@ global with sharing class GetSaleAndMortgage {
             subjectSaleMortgage.Owner_One_Last_Name__c = String.valueOf(owner1NameMap.get('lastName')); 
             subjectSaleMortgage.Owner_Two_First_Name__c = String.valueOf(owner2NameMap.get('firstNameAndMi')); 
             subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
-            subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMapValue.get('taxAmt')); 
+            subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMap.get('taxAmt'))/12; 
 
           //final updates
           List<Sale_Mortgage__c> updateSaleMortgage = new List<Sale_Mortgage__c>(); 
