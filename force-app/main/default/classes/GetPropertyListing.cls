@@ -78,6 +78,8 @@ global class GetPropertyListing {
           updateMap.put('valueEstimate',valueEstimate);
           String rentEstimate = PropertyUpdateFromZillow.parseStringAfter(('rentZestimate: '+m.get('rentZestimate'))); 
           updateMap.put('rentEstimate',rentEstimate);
+          String hoaFee = PropertyUpdateFromZillow.parseStringAfter(('hoaFee: '+m.get('hoaFee'))); 
+          updateMap.put('hoaFee',hoaFee);
 
           List<Property__c> updateProperty = new List<Property__c>(); 
 
@@ -97,6 +99,7 @@ global class GetPropertyListing {
           subjectProperty.Latitude__c = PropertyUpdateFromZillow.decimalNullCheck(latitude); 
           subjectProperty.Longitude__c = PropertyUpdateFromZillow.decimalNullCheck(longitude); 
           subjectProperty.Value_Estimate__c = PropertyUpdateFromZillow.decimalNullCheck(valueEstimate); 
+          subjectProperty.Value_Estimate__c = PropertyUpdateFromZillow.decimalNullCheck(hoaFee); 
 
           updateProperty.add(subjectProperty); 
           update updateProperty; 
