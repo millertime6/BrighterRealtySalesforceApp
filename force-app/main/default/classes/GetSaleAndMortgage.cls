@@ -96,7 +96,10 @@ global with sharing class GetSaleAndMortgage {
             subjectSaleMortgage.Owner_One_Last_Name__c = String.valueOf(owner1NameMap.get('lastName')); 
             subjectSaleMortgage.Owner_Two_First_Name__c = String.valueOf(owner2NameMap.get('firstNameAndMi')); 
             subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
-            subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMap.get('taxAmt'))/12; 
+            subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
+            if(String.valueOf(taxMap.get('taxAmt')) != null){
+              subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMap.get('taxAmt'))/12; 
+            }
 
           //final updates
           List<Sale_Mortgage__c> updateSaleMortgage = new List<Sale_Mortgage__c>(); 

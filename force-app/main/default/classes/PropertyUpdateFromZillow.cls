@@ -71,4 +71,18 @@ global with sharing class PropertyUpdateFromZillow {
             }
         }
 
+        //CURRENCY ONLY null check 
+        public static Decimal currencyStrictNullCheck(Decimal feeString){
+            if(feeString == null) {
+                return 0.00; 
+            }
+            else if(String.valueOf(feeString) == 'null'){
+                return 0.00;
+            }
+            else{
+                return feeString; 
+            }
+        }
+
+
     }
