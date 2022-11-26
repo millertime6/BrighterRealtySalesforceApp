@@ -6,7 +6,7 @@ global class GetPropertyListing {
      Webservice static void getPropertyListingData(String subjectPropertyId) {
       
       System.debug('Subject Property Id from LWC ' +subjectPropertyId); 
-      List<Property__c> propertyList = [SELECT Name, Id, Value_Estimate__c, Full_Address__c,Latitude__c, Longitude__c, Property_Picture_Link__c, Property_Type__c, Non_Owner_Occupied__c, Last_Sale_Date__c, Status__c, Listing_Status__c, Baths__c, Beds__c, County__c, Rent_Estimate__c 
+      List<Property__c> propertyList = [SELECT Name, Id, Value_Estimate__c, Full_Address__c,Latitude__c, Longitude__c, Property_Picture_Link__c, Property_Type__c, Non_Owner_Occupied__c, Last_Sale_Date__c, Status__c, Listing_Status__c, Baths__c, Beds__c, County__c, Rent_Estimate__c, Monthly_HOA_Fee__c
                                         FROM Property__c WHERE Id =: subjectPropertyId]; 
       system.debug('the property list is: '+propertyList); 
 
@@ -99,7 +99,7 @@ global class GetPropertyListing {
           subjectProperty.Latitude__c = PropertyUpdateFromZillow.decimalNullCheck(latitude); 
           subjectProperty.Longitude__c = PropertyUpdateFromZillow.decimalNullCheck(longitude); 
           subjectProperty.Value_Estimate__c = PropertyUpdateFromZillow.decimalNullCheck(valueEstimate); 
-          subjectProperty.Value_Estimate__c = PropertyUpdateFromZillow.decimalNullCheck(hoaFee); 
+          subjectProperty.Monthly_HOA_Fee__c = PropertyUpdateFromZillow.decimalNullCheck(hoaFee); 
 
           updateProperty.add(subjectProperty); 
           update updateProperty; 
