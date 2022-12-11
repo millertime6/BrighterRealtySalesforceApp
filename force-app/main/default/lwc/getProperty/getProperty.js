@@ -20,22 +20,6 @@ export default class GetProperty extends LightningElement {
             // this.loadingSpinner = false;
         })
     }
-    handleMobileChange(event){
-        this.mobilevalue = event.target.value;
-    } 
-
-    handleNext() {
-        
-    }
-
-    async handleCancel(){
-
-            await LightningAlert.open({
-            message: 'this is the alert message',
-            theme: 'error', 
-            label: 'Error!', 
-            variant: 'header',
-        });
-    }
+    
 }
 

@@ -15,7 +15,7 @@ global with sharing class GetSaleAndMortgage {
         //update url 
         String apiKey = '0ab956c73fcb4ffb82021c067bbafc8a'; 
         String propertyAddressToUpdate = subjectSaleMortgage.Full_Property_Address__c; 
-        String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','').replace('Apt','')+'%2C'+subjectSaleMortgage.City__c.replace(' ','').replace('#','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
+        String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','').replace('Apt','').replace('#','')+'%2C'+subjectSaleMortgage.City__c.replace(' ','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
         // String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
 
         // Instantiate a new Http object
@@ -26,6 +26,7 @@ global with sharing class GetSaleAndMortgage {
         req.setMethod('GET');
         req.setHeader('apikey', apiKey); 
         req.setHeader('accept', 'application/json'); 
+        String fullErrorMessage; 
 
         // req.setHeader('X-RapidAPI-Host','https://api.gateway.attomdata.com'); 
         req.setEndpoint('callout:AttomApi'+paddedPropertyAddress);
@@ -34,6 +35,8 @@ global with sharing class GetSaleAndMortgage {
     
         // Send the request, and return a response
         HttpResponse res = h.send(req);
+        List<Sale_Mortgage__c> updateSaleMortgage = new List<Sale_Mortgage__c>(); 
+
         //check and make sure proper status response 
         if(res.getStatusCode() == 200) {
 
@@ -97,17 +100,21 @@ global with sharing class GetSaleAndMortgage {
             subjectSaleMortgage.Owner_Two_First_Name__c = String.valueOf(owner2NameMap.get('firstNameAndMi')); 
             subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
             subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
+            subjectSaleMortgage.Response_Message__c = PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode())+', error code= '+PropertyUpdateFromZillow.getError(m); 
+
             if(String.valueOf(taxMap.get('taxAmt')) != null){
               subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMap.get('taxAmt'))/12; 
             }
 
           //final updates
-          List<Sale_Mortgage__c> updateSaleMortgage = new List<Sale_Mortgage__c>(); 
           updateSaleMortgage.add(subjectSaleMortgage); 
           update updateSaleMortgage; 
 
       }else{
         system.debug('There was a status error. '); 
+        subjectSaleMortgage.Response_Message__c = 'There was a status error: '+PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode()); 
+        updateSaleMortgage.add(subjectSaleMortgage); 
+        update updateSaleMortgage; 
       }
     }
 }

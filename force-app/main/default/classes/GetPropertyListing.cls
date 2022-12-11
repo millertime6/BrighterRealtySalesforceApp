@@ -30,6 +30,8 @@ global class GetPropertyListing {
     
         // Send the request, and return a response
         HttpResponse res = h.send(req);
+        List<Property__c> updateProperty = new List<Property__c>(); 
+
         //check and make sure proper status response 
         if(res.getStatusCode() == 200) {
 
@@ -81,7 +83,6 @@ global class GetPropertyListing {
           String hoaFee = PropertyUpdateFromZillow.parseStringAfter(('monthlyHoaFee: '+m.get('monthlyHoaFee'))); 
           updateMap.put('monthlyHoaFee',hoaFee);
 
-          List<Property__c> updateProperty = new List<Property__c>(); 
 
           subjectProperty.Baths__c = PropertyUpdateFromZillow.decimalNullCheck(updateMap.get('bathrooms')); 
           subjectProperty.Beds__c = PropertyUpdateFromZillow.decimalNullCheck(updateMap.get('bedrooms')); 
@@ -102,11 +103,15 @@ global class GetPropertyListing {
           if(hoaFee != null && hoaFee != 'null') {
           subjectProperty.Monthly_HOA_Fee__c = PropertyUpdateFromZillow.currencyStrictNullCheck(Integer.valueOf(hoaFee)); 
           }
+          subjectProperty.Response_Message__c = PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode())+', error code= '+PropertyUpdateFromZillow.getError(m); 
           updateProperty.add(subjectProperty); 
           update updateProperty; 
 
       }else{
         system.debug('There was a status error. '); 
+        subjectProperty.Response_Message__c = 'There was a status error with response code: '+res.getStatusCode()+' '+PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode()); 
+        updateProperty.add(subjectProperty); 
+        update updateProperty; 
       }
     }
   }

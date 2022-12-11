@@ -84,5 +84,32 @@ global with sharing class PropertyUpdateFromZillow {
             }
         }
 
+        //get status from api response 
+        public static string getResponseMessage(Integer responseCode){
+            String responseMessage; 
+            if(responseCode == 200){
+                responseMessage = '200: Response Successful at '+system.now(); 
+            }
+            if(responseCode == 400){
+                responseMessage =  '400: Bad Request at '+system.now(); 
+            }
+            if(responseCode == 500){
+                responseMessage =  '500: Internal Server Error at '+system.now()+'. Please try again later. '; 
+            }
+
+            if(responseCode == 503){
+                responseMessage = '503: Service Unavailable at '+system.now()+'. Please try again later. '; 
+            }
+            return responseMessage; 
+        }
+
+        //get error message in successful response 
+        public static Object getError(Map<String,Object> errorMap){
+            Object errorResponse = errorMap.get('error'); 
+            if(errorMap.get('error') != null){
+                errorResponse = errorMap.get('error'); 
+            }
+            return errorResponse; 
+        }
 
     }
