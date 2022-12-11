@@ -1,22 +1,16 @@
 import { LightningElement } from 'lwc';
+import GetAddressForApexMap from '@salesforce/apex/GetAddressForMap.GetAddressForApexMap';
 
-export default class GetAddressForMap extends LightningElement {
+export default class GetAddressForJSMap extends LightningElement {
+    propertyCoordinates = GetAddressForApexMap({propertyId: this.recordId}); 
+
     mapMarkers = [
         {
             location: {
-                City: 'San Francisco',
-                Country: 'USA',
-                PostalCode: '94105',
-                State: 'CA',
-                Street: 'The Landmark @ One Market, Suite 300',
+                Latitude: this.propertyCoordinates[0],
+                Longitude: this.propertyCoordinates[1],
             },
-            value: 'location001',
-            title: 'The Landmark Building',
-            description:
-                'The Landmark is considered to be one of the city&#39;s most architecturally distinct and historic properties', //escape the apostrophe in the string using &#39;
-            icon: 'standard:account',
         },
     ];
-
 
 }
