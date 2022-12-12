@@ -1,15 +1,9 @@
-import { LightningElement,api,wire,track } from 'lwc';
+import { LightningElement,api,track } from 'lwc';
 import getPropertyListingData from '@salesforce/apex/GetPropertyListing.getPropertyListingData';
-import LightningAlert from 'lightning/alert';
 export default class GetProperty extends LightningElement {
     @api recordId; 
     @track data;
     @track isShowModal = false;
-
-
-    // handle_Id(event) {
-    //     this.recordId = event.detail.value;
-    // }
 
     handleClick(){
             // this.loadingSpinner = true;
@@ -20,6 +14,5 @@ export default class GetProperty extends LightningElement {
             // this.loadingSpinner = false;
         })
     }
-    
 }
 
