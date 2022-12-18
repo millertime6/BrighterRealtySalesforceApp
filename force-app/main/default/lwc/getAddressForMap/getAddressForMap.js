@@ -1,7 +1,8 @@
 import { LightningElement, wire } from 'lwc';
-import { getRecord } from 'lightning/uiRecordApi';
-// import LATITUDE FROM @salesforce/schema/Property__c.Latitude__c; 
-// import LONGITUDE FROM @salesforce/schema/Property__c.Longitude__c; 
+// import { getRecord } from 'lightning/uiRecordApi';
+import { getRecord, getFieldDisplayValue } from 'lightning/uiRecordApi';
+import LATITUDE from '@salesforce/schema/Property__c.Latitude__c'; 
+import LONGITUDE from '@salesforce/schema/Property__c.Longitude__c'; 
 
 
 export default class LightningMapExample extends LightningElement {
@@ -19,8 +20,8 @@ export default class LightningMapExample extends LightningElement {
     mapMarkers = [
         {
             location: {
-                Latitude: coordinates.Latitude__c,
-                Longitude: coordinates.Longitude__c,
+                Latitude: getFieldDisplayValue(record, Property__c.LATITUDE),
+                Longitude: getFieldDisplayValue(record, Property__c.LONGITUDE),
             },
         },
     ];

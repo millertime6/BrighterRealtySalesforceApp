@@ -13,7 +13,7 @@ global with sharing class GetSaleAndMortgage {
         subjectSaleMortgage = saleMortgageList[0]; 
       
         //update url 
-        String apiKey = '0ab956c73fcb4ffb82021c067bbafc8a'; 
+        String apiKey = '1103fc1f8e653e0ebc52b56707f8aa6c'; 
         String propertyAddressToUpdate = subjectSaleMortgage.Full_Property_Address__c; 
         String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','').replace('Apt','').replace('#','')+'%2C'+subjectSaleMortgage.City__c.replace(' ','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
         // String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
