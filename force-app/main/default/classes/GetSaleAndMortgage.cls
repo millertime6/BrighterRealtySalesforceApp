@@ -5,7 +5,7 @@ global with sharing class GetSaleAndMortgage {
       
       List<Sale_Mortgage__c> saleMortgageList = [SELECT Name, Id, First_Lender_Name__c, First_Mortgage_Balance__c,Second_Mortgage_Balance__c,Loan_Type__c, Mortgage_Recording_Date__c, 
                                         Owner_One_First_Name__c, Owner_One_Last_Name__c, Full_Property_Address__c, Owner_Two_First_Name__c, Owner_Two_Last_Name__c, Property__c, Recording_Date__c, Settle_Date__c, 
-                                        Street_Address__c, City_and_State__c, City__c, Monthly_Taxes__c FROM Sale_Mortgage__c 
+                                        Street_Address__c, City_and_State__c, City__c, Monthly_Taxes__c, Attom_ID__c, Vendor_Subdivision__c FROM Sale_Mortgage__c 
                                         WHERE Id =: subjectPropertyId]; 
         system.debug('the property list is: '+saleMortgageList); 
 
@@ -52,6 +52,8 @@ global with sharing class GetSaleAndMortgage {
           Map<String,Object> summary = new Map<String,Object>(); 
           Map<String,Object> sale = new Map<String,Object>(); 
           Map<String,Object> assessment = new Map<String,Object>(); 
+          Map<String,Object> identifier = new Map<String,Object>(); 
+
 
             //1st level of nesting - add main object to list and get main subject objects into a map
             List<Object> property = (List<Object>) m.get('property'); //get the records
@@ -63,6 +65,7 @@ global with sharing class GetSaleAndMortgage {
                     summary = (Map<String,Object>)rMap.get('summary');
                     sale = (Map<String,Object>)rMap.get('sale');
                     assessment = (Map<String,Object>)rMap.get('assessment');
+                    identifier = (Map<String,Object>)rMap.get('identifier');
 
                 }
             } else {
@@ -77,7 +80,6 @@ global with sharing class GetSaleAndMortgage {
             Map<String,Object> mortgageMap = (Map<String, Object>) assessment.get('mortgage'); 
             Map<String,Object> ownerMap = (Map<String, Object>) assessment.get('owner'); 
             Map<String,Object> taxMap = (Map<String, Object>) assessment.get('tax'); 
-
 
             //3rd level 
             //need to extract FirstConcurrent and SecondConcurrent from Mortgage  
@@ -100,12 +102,15 @@ global with sharing class GetSaleAndMortgage {
             subjectSaleMortgage.Owner_Two_First_Name__c = String.valueOf(owner2NameMap.get('firstNameAndMi')); 
             subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
             subjectSaleMortgage.Owner_Two_Last_Name__c = String.valueOf(owner2NameMap.get('lastName')); 
+            subjectSaleMortgage.Attom_ID__c = String.valueOf(identifier.get('attomId')); 
+            subjectSaleMortgage.Vendor_Subdivision__c = String.valueOf(area.get('subdName'));
             subjectSaleMortgage.Response_Message__c = PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode())+', error code= '+PropertyUpdateFromZillow.getError(m); 
 
             if(String.valueOf(taxMap.get('taxAmt')) != null){
               subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMap.get('taxAmt'))/12; 
             }
 
+          system.debug('Attom ID: '+string.valueOf(identifier.get('attomId'))); 
           //final updates
           updateSaleMortgage.add(subjectSaleMortgage); 
           update updateSaleMortgage; 
