@@ -5,6 +5,10 @@ export default class GetProperty extends LightningElement {
     @track data;
     @track isShowModal = false;
 
+    disabled = false;
+    disableButton() {
+    this.disabled = true;
+  }
     handleClick(){
             // this.loadingSpinner = true;
             getPropertyListingData({subjectPropertyId: this.recordId}).then(resp => {

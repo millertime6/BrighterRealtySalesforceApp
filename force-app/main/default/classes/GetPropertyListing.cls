@@ -82,7 +82,9 @@ global class GetPropertyListing {
           updateMap.put('rentEstimate',rentEstimate);
           String hoaFee = PropertyUpdateFromZillow.parseStringAfter(('monthlyHoaFee: '+m.get('monthlyHoaFee'))); 
           updateMap.put('monthlyHoaFee',hoaFee);
-
+          //add address values for separate queries 
+          String zipCode = PropertyUpdateFromZillow.parseStringAfter(('zipcode: '+m.get('zipcode'))); 
+          updateMap.put('zipcode',zipCode);
 
           subjectProperty.Baths__c = PropertyUpdateFromZillow.decimalNullCheck(updateMap.get('bathrooms')); 
           subjectProperty.Beds__c = PropertyUpdateFromZillow.decimalNullCheck(updateMap.get('bedrooms')); 
@@ -103,8 +105,11 @@ global class GetPropertyListing {
           if(hoaFee != null && hoaFee != 'null') {
           subjectProperty.Monthly_HOA_Fee__c = PropertyUpdateFromZillow.currencyStrictNullCheck(Integer.valueOf(hoaFee)); 
           }
+          subjectProperty.Zip_Code__c = PropertyUpdateFromZillow.stringOnlyNullCheck(zipCode); 
           subjectProperty.Response_Message__c = PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode())+', error code= '+PropertyUpdateFromZillow.getError(m); 
           updateProperty.add(subjectProperty); 
+          //address values 
+
           update updateProperty; 
 
       }else{
