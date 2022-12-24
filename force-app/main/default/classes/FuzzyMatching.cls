@@ -14,6 +14,12 @@ public with sharing class FuzzyMatching {
         Integer averageStrLength = (str1Length + str2Length)/2; 
         return Math.round(averageStrLength * thresholdPercent);  
     }
+
+    //calculate levenschtein distance
+    public static Integer getLevenschteinValue(String str1, String str2){
+    List<Integer> levList = new List<Integer>(); 
+        return str1.getLevenshteinDistance(str2); 
+    }
     
     public static Boolean checkMatch(String str1, String str2) {
 
