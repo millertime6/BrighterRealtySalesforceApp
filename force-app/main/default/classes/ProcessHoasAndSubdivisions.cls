@@ -12,11 +12,11 @@ public with sharing class ProcessHoasAndSubdivisions {
                         if(compareStrings == TRUE){
                         //need to move this to a separate method 
                         thresholdMap.put(s.id, FuzzyMatching.getLevenschteinValue(subjectProperty.Zip_Code__c, s.Zip_Code_Text__c)); 
-                            // idForReturn = s.id; 
                         }
                     }
                 }
             }
+        system.debug('threshold map: '+thresholdMap); 
         //get the smallest of the values that met the threshold requirement 
         Integer count = 0; 
         for(Id sub: thresholdMap.keySet()){

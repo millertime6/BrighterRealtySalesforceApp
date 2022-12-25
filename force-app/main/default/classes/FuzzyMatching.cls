@@ -9,7 +9,7 @@ public with sharing class FuzzyMatching {
         if(str1.contains(str2) || str2.contains(str1)){
             thresholdPercent = .75; 
         }else{
-            thresholdPercent = .25; 
+            thresholdPercent = .33; 
         }
         Integer averageStrLength = (str1Length + str2Length)/2; 
         return Math.round(averageStrLength * thresholdPercent);  
