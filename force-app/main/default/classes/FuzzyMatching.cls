@@ -7,7 +7,7 @@ public with sharing class FuzzyMatching {
         Integer thresholdValue; 
         Decimal thresholdPercent; 
         if(str1.contains(str2) || str2.contains(str1)){
-            thresholdPercent = .75; 
+            thresholdPercent = .9; 
         }else{
             thresholdPercent = .33; 
         }
