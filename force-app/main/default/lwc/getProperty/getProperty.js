@@ -11,6 +11,7 @@ export default class GetProperty extends LightningElement {
   }
     handleClick(){
             // this.loadingSpinner = true;
+            this.disableButton(); 
             getPropertyListingData({subjectPropertyId: this.recordId}).then(resp => {
             // console.log('recordId: '+recordId); 
             this.data = JSON.parse(resp).message;

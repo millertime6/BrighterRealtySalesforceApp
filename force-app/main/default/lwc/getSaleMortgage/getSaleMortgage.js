@@ -6,9 +6,12 @@ export default class getSaleMortgage extends LightningElement {
     @track data;
     @track isShowModal = false;
 
+    disableButton() {
+        this.disabled = true;
+      }
 
     handleClick(){
-            // this.loadingSpinner = true;
+            this.disableButton(); 
             getSaleAndMortgage({subjectPropertyId: this.recordId}).then(resp => {
             this.data = JSON.parse(resp).message;
             console.log(this.data[0]); 
