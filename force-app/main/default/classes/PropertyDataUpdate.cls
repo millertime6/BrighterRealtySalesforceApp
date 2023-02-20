@@ -40,6 +40,8 @@ public with sharing class PropertyDataUpdate {
         //add address values for separate queries 
         String zipCode = PropertyUpdateFromZillow.parseStringAfter(('zipcode: '+m.get('zipcode'))); 
         updateMap.put('zipcode',zipCode);
+        String zpid = PropertyUpdateFromZillow.parseStringAfter(('zpid: '+m.get('zpid')));
+        updateMap.put('zpid',zpid);
 
         subjectProperty.Baths__c = PropertyUpdateFromZillow.decimalNullCheck(updateMap.get('bathrooms')); 
         subjectProperty.Beds__c = PropertyUpdateFromZillow.decimalNullCheck(updateMap.get('bedrooms')); 
@@ -61,6 +63,7 @@ public with sharing class PropertyDataUpdate {
         subjectProperty.Monthly_HOA_Fee__c = PropertyUpdateFromZillow.currencyStrictNullCheck(Integer.valueOf(hoaFee)); 
         }
         subjectProperty.Zip_Code__c = PropertyUpdateFromZillow.stringOnlyNullCheck(zipCode); 
+        subjectProperty.zpid_Zillow_Property_ID__c = zpid;
         updateProperty.add(subjectProperty); 
         //address values 
 

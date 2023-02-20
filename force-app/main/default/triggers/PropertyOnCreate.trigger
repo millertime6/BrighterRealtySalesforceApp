@@ -3,7 +3,9 @@ trigger PropertyOnCreate on Property__c (before update, after insert, after upda
     SWITCH ON Trigger.operationType{
          WHEN AFTER_INSERT{
             for(Property__c p : Trigger.new) {
-                GetPropertyListing.getPropertyListingData(p.Id);    
+                GetPropertyListing.getPropertyListingData(p.Id);  
+                GetSaleAndMortgage.getSaleAndMortgage(p.Id);
+                system.debug('Property Created: ' + p.Id);
              } 
          }   
 

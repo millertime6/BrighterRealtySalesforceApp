@@ -9,12 +9,20 @@ global with sharing class GetSaleAndMortgage {
                                         WHERE Id =: subjectPropertyId]; 
         system.debug('the property list is: '+saleMortgageList); 
 
+        //get the subject property
+        Property__c subjectProperty = [SELECT Id, Name, Full_Address__c, Vendor_Subdivision__c FROM Property__c WHERE Id =: subjectPropertyId];
+
         Sale_Mortgage__c subjectSaleMortgage; 
-        subjectSaleMortgage = saleMortgageList[0]; 
+        if(saleMortgageList.size() > 0){
+          subjectSaleMortgage = saleMortgageList[0]; 
+        }
       
         //update url 
-        String apiKey = '1103fc1f8e653e0ebc52b56707f8aa6c'; 
-        String propertyAddressToUpdate = subjectSaleMortgage.Full_Property_Address__c; 
+        String apiKey = '24171d6fa3f6247bb1dff49522af1566'; 
+        String propertyAddressToUpdate; 
+        if(subjectSaleMortgage != null && subjectProperty != null){
+          propertyAddressToUpdate = subjectProperty.Full_Address__c;
+        }
         String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','').replace('Apt','').replace('#','')+'%2C'+subjectSaleMortgage.City__c.replace(' ','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
         // String paddedPropertyAddress = '/propertyapi/v1.0.0/property/expandedprofile?address1='+subjectSaleMortgage.Street_Address__c.replace(' ','%20').replace(',','')+'&address2='+subjectSaleMortgage.City_and_State__c.replace(' ','%2C%20').replace(',',''); 
 
@@ -105,6 +113,7 @@ global with sharing class GetSaleAndMortgage {
             subjectSaleMortgage.Attom_ID__c = String.valueOf(identifier.get('attomId')); 
             subjectSaleMortgage.Vendor_Subdivision__c = String.valueOf(area.get('subdName'));
             subjectSaleMortgage.Response_Message__c = PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode())+', error code= '+PropertyUpdateFromZillow.getError(m); 
+            subjectSaleMortgage.Property__c = subjectPropertyId;
 
             if(String.valueOf(taxMap.get('taxAmt')) != null){
               subjectSaleMortgage.Monthly_Taxes__c = Integer.valueOf(taxMap.get('taxAmt'))/12; 
