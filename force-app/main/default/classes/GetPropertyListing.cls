@@ -12,11 +12,15 @@ global class GetPropertyListing {
 
       Property__c subjectProperty; 
       subjectProperty = propertyList[0]; 
-    
+          
+
       //update url 
       String apiKey = '0ce8a0f686mshe96e68bade03161p19224cjsnba5566686949'; 
       String propertyAddressToUpdate = subjectProperty.Full_Address__c; 
-      String paddedPropertyAddress = '/search?location='+propertyAddressToUpdate.replace(' ','%20').replace(',',''); 
+      //url encode property address
+      String urlEncodedPropertyAddress = EncodingUtil.urlEncode(propertyAddressToUpdate, 'UTF-8');
+      system.debug('URL Encoded property: '+String.valueOf(urlEncodedPropertyAddress)); 
+      String paddedPropertyAddress = '/search_address?address='+urlEncodedPropertyAddress; 
   
       // Instantiate a new Http object
       Http h = new Http();
@@ -40,7 +44,7 @@ global class GetPropertyListing {
         Map<String,String> updateMap = new Map<String, String>(); 
         subjectProperty.Response_Message__c = PropertyUpdateFromZillow.getResponseMessage(res.getStatusCode())+', error code= '+PropertyUpdateFromZillow.getError(m); 
 
-        update updateProperty; 
+        update updateProperty[0]; 
 
     }else{
       system.debug('There was a status error. '); 
