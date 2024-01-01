@@ -15,7 +15,12 @@ global class GetPropertyListing {
           
 
       //update url 
-      String apiKey = '0ce8a0f686mshe96e68bade03161p19224cjsnba5566686949'; 
+      Map<String, Property_API_Key__mdt> apiMap = Property_API_Key__mdt.getAll();
+      system.debug('apiMap: '+apiMap);
+      system.debug(apiMap.get('api_key'));
+      String apiKeyString = string.valueOf(apiMap.get('api_key'));
+      String apiKey = apiKeyString.substringAfter('zillow_api_key__c=').substringBefore(','); 
+      system.debug('api key: '+apiKey);
       String propertyAddressToUpdate = subjectProperty.Full_Address__c; 
       //url encode property address
       String urlEncodedPropertyAddress = EncodingUtil.urlEncode(propertyAddressToUpdate, 'UTF-8');
