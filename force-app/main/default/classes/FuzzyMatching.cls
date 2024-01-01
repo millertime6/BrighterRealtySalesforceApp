@@ -43,4 +43,4 @@ public with sharing class FuzzyMatching {
     //to calculate threshold value 
     //use ratio of str lengths to assign higher threshold to most similar string lengths  
     //multiply ratio by distance to get threshold 
-    //make the calculation dynamic? 
+    //make the calculation dynamic?
