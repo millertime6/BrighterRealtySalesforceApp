@@ -14,7 +14,6 @@ global class GetPropertyListing {
       subjectProperty = propertyList[0]; 
           
 
-      //update url 
       Map<String, Property_API_Key__mdt> apiMap = Property_API_Key__mdt.getAll();
       system.debug('apiMap: '+apiMap);
       system.debug(apiMap.get('api_key'));
